@@ -14,51 +14,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.javeriana.as.personapp.adapter.PersonaInputAdapterRest;
-import co.edu.javeriana.as.personapp.model.request.PersonaRequest;
-import co.edu.javeriana.as.personapp.model.response.PersonaResponse;
+import co.edu.javeriana.as.personapp.adapter.ProfesionInputAdapterRest;
+import co.edu.javeriana.as.personapp.model.request.ProfesionRequest;
+import co.edu.javeriana.as.personapp.model.response.ProfesionResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/persona")
-public class PersonaControllerV1 {
+@RequestMapping("/api/v1/profesion")
+public class ProfesionControllerV1 {
 	
 	@Autowired
-	private PersonaInputAdapterRest personaInputAdapterRest;
+	private ProfesionInputAdapterRest profesionInputAdapterRest;
 	
 	@ResponseBody
 	@GetMapping(path = "/{database}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<PersonaResponse> personas(@PathVariable String database) {
-		log.info("Into personas REST API");
-		return personaInputAdapterRest.historial(database.toUpperCase());
+	public List<ProfesionResponse> profesiones(@PathVariable String database) {
+		log.info("Into profesiones REST API");
+		return profesionInputAdapterRest.historial(database.toUpperCase());
 	}
 	
 	@ResponseBody
 	@GetMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public PersonaResponse obtenerPersona(@PathVariable String database, @PathVariable String id) {
-		log.info("Into obtenerPersona REST API");
-		return personaInputAdapterRest.obtenerPersona(database.toUpperCase(), id);
+	public ProfesionResponse obtenerProfesion(@PathVariable String database, @PathVariable String id) {
+		log.info("Into obtenerProfesion REST API");
+		return profesionInputAdapterRest.obtenerProfesion(database.toUpperCase(), id);
 	}
 	
 	@ResponseBody
 	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public PersonaResponse crearPersona(@RequestBody PersonaRequest request) {
-		log.info("Into crearPersona REST API");
-		return personaInputAdapterRest.crearPersona(request);
+	public ProfesionResponse crearProfesion(@RequestBody ProfesionRequest request) {
+		log.info("Into crearProfesion REST API");
+		return profesionInputAdapterRest.crearProfesion(request);
 	}
 	
 	@ResponseBody
 	@PutMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public PersonaResponse actualizarPersona(@RequestBody PersonaRequest request) {
-		log.info("Into actualizarPersona REST API");
-		return personaInputAdapterRest.actualizarPersona(request);
+	public ProfesionResponse actualizarProfesion(@RequestBody ProfesionRequest request) {
+		log.info("Into actualizarProfesion REST API");
+		return profesionInputAdapterRest.actualizarProfesion(request);
 	}
 	
 	@ResponseBody
 	@DeleteMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Boolean eliminarPersona(@PathVariable String database, @PathVariable String id) {
-		log.info("Into eliminarPersona REST API");
-		return personaInputAdapterRest.eliminarPersona(database.toUpperCase(), id);
+	public Boolean eliminarProfesion(@PathVariable String database, @PathVariable String id) {
+		log.info("Into eliminarProfesion REST API");
+		return profesionInputAdapterRest.eliminarProfesion(database.toUpperCase(), id);
 	}
 }
