@@ -31,14 +31,14 @@ public class PersonaControllerV1 {
 	@GetMapping(path = "/{database}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PersonaResponse> personas(@PathVariable String database) {
 		log.info("Into personas REST API");
-		return personaInputAdapterRest.historial(database.toUpperCase());
+		return personaInputAdapterRest.historial(normalizeDatabase(database));
 	}
 	
 	@ResponseBody
 	@GetMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PersonaResponse obtenerPersona(@PathVariable String database, @PathVariable String id) {
 		log.info("Into obtenerPersona REST API");
-		return personaInputAdapterRest.obtenerPersona(database.toUpperCase(), id);
+		return personaInputAdapterRest.obtenerPersona(normalizeDatabase(database), id);
 	}
 	
 	@ResponseBody
@@ -59,6 +59,15 @@ public class PersonaControllerV1 {
 	@DeleteMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Boolean eliminarPersona(@PathVariable String database, @PathVariable String id) {
 		log.info("Into eliminarPersona REST API");
-		return personaInputAdapterRest.eliminarPersona(database.toUpperCase(), id);
+		return personaInputAdapterRest.eliminarPersona(normalizeDatabase(database), id);
+	}
+	
+	private String normalizeDatabase(String database) {
+		if (database.toLowerCase().contains("maria")) {
+			return "maria";
+		} else if (database.toLowerCase().contains("mongo")) {
+			return "mongo";
+		}
+		return database;
 	}
 }

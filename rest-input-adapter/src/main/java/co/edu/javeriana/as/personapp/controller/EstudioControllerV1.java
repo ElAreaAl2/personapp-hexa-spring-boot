@@ -31,14 +31,14 @@ public class EstudioControllerV1 {
 	@GetMapping(path = "/{database}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<EstudioResponse> estudios(@PathVariable String database) {
 		log.info("Into estudios REST API");
-		return estudioInputAdapterRest.historial(database.toUpperCase());
+		return estudioInputAdapterRest.historial(normalizeDatabase(database));
 	}
 	
 	@ResponseBody
-	@GetMapping(path = "/{database}/{professionId}/{personId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public EstudioResponse obtenerEstudio(@PathVariable String database, @PathVariable String professionId, @PathVariable String personId) {
+	@GetMapping(path = "/{database}/{profId}/{personId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EstudioResponse obtenerEstudio(@PathVariable String database, @PathVariable String profId, @PathVariable String personId) {
 		log.info("Into obtenerEstudio REST API");
-		return estudioInputAdapterRest.obtenerEstudio(database.toUpperCase(), professionId, personId);
+		return estudioInputAdapterRest.obtenerEstudio(normalizeDatabase(database), profId, personId);
 	}
 	
 	@ResponseBody
@@ -56,9 +56,18 @@ public class EstudioControllerV1 {
 	}
 	
 	@ResponseBody
-	@DeleteMapping(path = "/{database}/{professionId}/{personId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Boolean eliminarEstudio(@PathVariable String database, @PathVariable String professionId, @PathVariable String personId) {
+	@DeleteMapping(path = "/{database}/{profId}/{personId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Boolean eliminarEstudio(@PathVariable String database, @PathVariable String profId, @PathVariable String personId) {
 		log.info("Into eliminarEstudio REST API");
-		return estudioInputAdapterRest.eliminarEstudio(database.toUpperCase(), professionId, personId);
+		return estudioInputAdapterRest.eliminarEstudio(normalizeDatabase(database), profId, personId);
+	}
+	
+	private String normalizeDatabase(String database) {
+		if (database.toLowerCase().contains("maria")) {
+			return "maria";
+		} else if (database.toLowerCase().contains("mongo")) {
+			return "mongo";
+		}
+		return database;
 	}
 }

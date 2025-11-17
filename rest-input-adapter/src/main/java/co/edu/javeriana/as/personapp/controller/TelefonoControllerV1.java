@@ -31,14 +31,14 @@ public class TelefonoControllerV1 {
 	@GetMapping(path = "/{database}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<TelefonoResponse> telefonos(@PathVariable String database) {
 		log.info("Into telefonos REST API");
-		return telefonoInputAdapterRest.historial(database.toUpperCase());
+		return telefonoInputAdapterRest.historial(normalizeDatabase(database));
 	}
 	
 	@ResponseBody
 	@GetMapping(path = "/{database}/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public TelefonoResponse obtenerTelefono(@PathVariable String database, @PathVariable String number) {
 		log.info("Into obtenerTelefono REST API");
-		return telefonoInputAdapterRest.obtenerTelefono(database.toUpperCase(), number);
+		return telefonoInputAdapterRest.obtenerTelefono(normalizeDatabase(database), number);
 	}
 	
 	@ResponseBody
@@ -59,6 +59,15 @@ public class TelefonoControllerV1 {
 	@DeleteMapping(path = "/{database}/{number}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Boolean eliminarTelefono(@PathVariable String database, @PathVariable String number) {
 		log.info("Into eliminarTelefono REST API");
-		return telefonoInputAdapterRest.eliminarTelefono(database.toUpperCase(), number);
+		return telefonoInputAdapterRest.eliminarTelefono(normalizeDatabase(database), number);
+	}
+	
+	private String normalizeDatabase(String database) {
+		if (database.toLowerCase().contains("maria")) {
+			return "maria";
+		} else if (database.toLowerCase().contains("mongo")) {
+			return "mongo";
+		}
+		return database;
 	}
 }

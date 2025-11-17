@@ -31,14 +31,14 @@ public class ProfesionControllerV1 {
 	@GetMapping(path = "/{database}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ProfesionResponse> profesiones(@PathVariable String database) {
 		log.info("Into profesiones REST API");
-		return profesionInputAdapterRest.historial(database.toUpperCase());
+		return profesionInputAdapterRest.historial(normalizeDatabase(database));
 	}
 	
 	@ResponseBody
 	@GetMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ProfesionResponse obtenerProfesion(@PathVariable String database, @PathVariable String id) {
 		log.info("Into obtenerProfesion REST API");
-		return profesionInputAdapterRest.obtenerProfesion(database.toUpperCase(), id);
+		return profesionInputAdapterRest.obtenerProfesion(normalizeDatabase(database), id);
 	}
 	
 	@ResponseBody
@@ -59,6 +59,15 @@ public class ProfesionControllerV1 {
 	@DeleteMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Boolean eliminarProfesion(@PathVariable String database, @PathVariable String id) {
 		log.info("Into eliminarProfesion REST API");
-		return profesionInputAdapterRest.eliminarProfesion(database.toUpperCase(), id);
+		return profesionInputAdapterRest.eliminarProfesion(normalizeDatabase(database), id);
+	}
+	
+	private String normalizeDatabase(String database) {
+		if (database.toLowerCase().contains("maria")) {
+			return "maria";
+		} else if (database.toLowerCase().contains("mongo")) {
+			return "mongo";
+		}
+		return database;
 	}
 }
